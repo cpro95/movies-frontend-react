@@ -1,15 +1,59 @@
 import React from "react";
 import { Link } from "react-router-dom";
 import axios from "axios";
-import { Alert, Card, CardImg, CardTitle, Progress } from "reactstrap";
+import {
+  Progress,
+  Carousel,
+  CarouselItem,
+  CarouselCaption,
+  CarouselIndicators,
+  CarouselControl
+} from "reactstrap";
 
 export default class Home extends React.Component {
   constructor(props) {
     super(props);
     this.state = {
+      activeIndex: 0,
       isLoading: false,
       movies: []
     };
+    this.next = this.next.bind(this);
+    this.previous = this.previous.bind(this);
+    this.goToIndex = this.goToIndex.bind(this);
+    this.onExiting = this.onExiting.bind(this);
+    this.onExited = this.onExited.bind(this);
+  }
+
+  onExiting() {
+    this.animating = true;
+  }
+
+  onExited() {
+    this.animating = false;
+  }
+
+  next() {
+    if (this.animating) return;
+    const nextIndex =
+      this.state.activeIndex === this.state.movies.length - 1
+        ? 0
+        : this.state.activeIndex + 1;
+    this.setState({ activeIndex: nextIndex });
+  }
+
+  previous() {
+    if (this.animating) return;
+    const nextIndex =
+      this.state.activeIndex === 0
+        ? this.state.movies.length - 1
+        : this.state.activeIndex - 1;
+    this.setState({ activeIndex: nextIndex });
+  }
+
+  goToIndex(newIndex) {
+    if (this.animating) return;
+    this.setState({ activeIndex: newIndex });
   }
 
   componentDidMount() {
@@ -19,16 +63,46 @@ export default class Home extends React.Component {
       .get("http://cpro95-movies-backend-express.herokuapp.com/api/v1/movies")
       .then(res => {
         // console.log(res.data);
+        let items = [];
+
+        res.data.map(movie => {
+          items.push({
+            src: movie.c08,
+            altText: movie.c00,
+            caption: movie.c00,
+            idMovie: movie.idMovie
+          });
+          return 0;
+        });
+
         this.setState({
           isLoading: false,
-          movies: res.data
+          movies: items
         });
       })
       .catch(err => console.error(err));
   }
 
   render() {
-    const { isLoading, movies } = this.state;
+    const { activeIndex, isLoading, movies } = this.state;
+
+    const items = movies;
+
+    const slides = items.map(item => {
+      return (
+        <CarouselItem
+          onExiting={this.onExiting}
+          onExited={this.onExited}
+          key={item.src}
+        >
+          <Link to={`/list/${item.idMovie}`}>
+            <img width="100%" src={item.src} alt={item.altText} />
+          </Link>
+          <CarouselCaption captionHeader={item.caption} />
+        </CarouselItem>
+      );
+    });
+
     if (isLoading) {
       return (
         <div>
@@ -41,18 +115,28 @@ export default class Home extends React.Component {
     } else {
       return (
         <div>
-          <Alert color="light" className="text-center">
-            List of movies which I have recently......
-          </Alert>
-          {movies.map(movie => (
-            // <ListGroupItem key={movie.idMovie}>{movie.c00}</ListGroupItem>
-            <Link to={`/list/${movie.idMovie}`}>
-              <Card key={movie.idMovie}>
-                <CardImg top width="100%" src={movie.c08} />
-                <CardTitle className="text-center">{movie.c00}</CardTitle>
-              </Card>
-            </Link>
-          ))}
+          <Carousel
+            activeIndex={activeIndex}
+            next={this.next}
+            previous={this.previous}
+          >
+            <CarouselIndicators
+              items={items}
+              activeIndex={activeIndex}
+              onClickHandler={this.goToIndex}
+            />
+            {slides}
+            <CarouselControl
+              direction="prev"
+              directionText="Previous"
+              onClickHandler={this.previous}
+            />
+            <CarouselControl
+              direction="next"
+              directionText="Next"
+              onClickHandler={this.next}
+            />
+          </Carousel>
         </div>
       );
     }
