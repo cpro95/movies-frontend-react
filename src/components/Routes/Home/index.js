@@ -98,7 +98,7 @@ export default class Home extends React.Component {
           <Link to={`/list/${item.idMovie}`}>
             <img width="100%" src={item.src} alt={item.altText} />
           </Link>
-          <CarouselCaption captionHeader={item.caption} />
+          <CarouselCaption captionHeader={item.caption} captionText={item.caption}/>
         </CarouselItem>
       );
     });
