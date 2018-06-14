@@ -26,7 +26,7 @@ export default class Detail extends React.Component {
     this.setState({ isLoading: true });
     axios
       .get(
-        `http://cpro95-movies-backend-express.herokuapp.com/api/v1/movies?id=${
+        `https://cpro95-movies-backend-express.herokuapp.com/api/v1/movies?id=${
           this.props.match.params.id
         }`
       )

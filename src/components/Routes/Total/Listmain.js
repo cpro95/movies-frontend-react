@@ -33,7 +33,7 @@ export default class Listmain extends React.Component {
     this.setState({ isLoading: true });
     axios
       .get(
-        `http://cpro95-movies-backend-express.herokuapp.com/api/v1/movies?limit=10&offset=${
+        `https://cpro95-movies-backend-express.herokuapp.com/api/v1/movies?limit=10&offset=${
           this.state.currentIndex
         }`
       )

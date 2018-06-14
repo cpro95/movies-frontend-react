@@ -60,7 +60,7 @@ export default class Home extends React.Component {
     document.body.style.background = "white";
     this.setState({ isLoading: true });
     axios
-      .get("http://cpro95-movies-backend-express.herokuapp.com/api/v1/movies")
+      .get("https://cpro95-movies-backend-express.herokuapp.com/api/v1/movies")
       .then(res => {
         // console.log(res.data);
         let items = [];
