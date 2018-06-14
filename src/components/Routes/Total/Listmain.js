@@ -1,6 +1,5 @@
 import React from "react";
 import { Link } from "react-router-dom";
-import queryString from "query-string";
 import axios from "axios";
 import {
   ListGroup,
@@ -14,13 +13,13 @@ import {
 export default class Listmain extends React.Component {
   constructor(props) {
     super(props);
-    const query = queryString.parse(props.location.search);
-    let tempIndex;
-    if (isNaN(query.offset)) {
-      console.log("error");
+    let tempIndex = new URLSearchParams(props.location.search).get("offset");
+    // console.log("tempIndex is : " + tempIndex);
+    if (!tempIndex) {
+      // console.log("error");
       tempIndex = 0;
     } else {
-      tempIndex = parseInt(query.offset, 10);
+      tempIndex = parseInt(tempIndex, 10);
     }
     this.state = {
       isLoading: false,
@@ -77,11 +76,13 @@ export default class Listmain extends React.Component {
       return (
         <div>
           <div>
-            <ListGroup>
+            <ListGroup flush>
               {movies.map(movie => (
-                <Link key={movie.idMovie} to={`/list/${movie.idMovie}`}>
-                  <ListGroupItem>{movie.c00}</ListGroupItem>
-                </Link>
+                <ListGroupItem  key={movie.idMovie} tag="a" href={`/list/${movie.idMovie}`} action>
+                  {/* <Link to={`/list/${movie.idMovie}`}> */}
+                    {movie.c00}
+                  {/* </Link> */}
+                </ListGroupItem>
               ))}
             </ListGroup>
           </div>

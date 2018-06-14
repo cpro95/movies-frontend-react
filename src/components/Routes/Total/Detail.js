@@ -1,6 +1,5 @@
 import React from "react";
 import axios from "axios";
-// import { Link } from 'react-router-dom';
 import {
   Progress,
   Button,
@@ -8,7 +7,9 @@ import {
   CardImg,
   CardTitle,
   CardSubtitle,
-  CardText
+  CardText,
+  Row,
+  Col
 } from "reactstrap";
 
 export default class Detail extends React.Component {
@@ -63,14 +64,23 @@ export default class Detail extends React.Component {
         <div>
           <div>
             <Card className="px-2">
-              <Button
-                color="primary"
-                onClick={() => this.props.history.goBack()}
-              >
-                Back
-              </Button>
-              <CardTitle className="py-3 text-center">{movie.c00}</CardTitle>
-              <CardSubtitle className="py-2">{movie.c03}</CardSubtitle>
+              <Row>
+                <Col sm="2" xs="2">
+                  <Button
+                    color="info"
+                    onClick={() => this.props.history.goBack()}
+                  >
+                    Back
+                  </Button>
+                </Col>
+                <Col sm="10" xs="10">
+                </Col>
+              </Row>
+                  <CardTitle className="display-4 text-center">
+                    {movie.c00}
+                  </CardTitle>
+              <CardSubtitle className="py-2 display-5">{movie.c03}</CardSubtitle>
+              <hr className="my-2" />
               <CardText>{movie.c01}</CardText>
               <CardImg className="p-0 m-0" src={movie.c08} />
             </Card>
