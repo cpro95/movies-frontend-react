@@ -34,7 +34,7 @@ export default class Listmain extends React.Component {
     axios
       .get(
         `https://cpro95-movies-backend-express.herokuapp.com/api/v1/movies?limit=10&offset=${
-          this.state.currentIndex
+        this.state.currentIndex
         }`
       )
       .then(res => {
@@ -72,17 +72,22 @@ export default class Listmain extends React.Component {
         previous = this.state.currentIndex - 10;
       }
       next = this.state.currentIndex + 10;
+      movies.forEach(movie => {
+        if(movie.idMovie === 1) {
+          next = this.state.currentIndex;
+        }
+      });
+      // console.log("in render : next is " + next);
+      
 
       return (
         <div>
           <div>
             <ListGroup flush>
               {movies.map(movie => (
-                <ListGroupItem  key={movie.idMovie} tag="a" href={`/list/${movie.idMovie}`} action>
-                  {/* <Link to={`/list/${movie.idMovie}`}> */}
-                    {movie.c00}
-                  {/* </Link> */}
-                </ListGroupItem>
+                <ListGroupItem key={movie.idMovie} tag="a" href={`/list/${movie.idMovie}`} action>
+                {movie.c00}
+              </ListGroupItem>
               ))}
             </ListGroup>
           </div>
