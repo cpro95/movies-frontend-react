@@ -1,59 +1,18 @@
 import React from "react";
 import { Link } from "react-router-dom";
 import axios from "axios";
-import {
-  Progress,
-  Carousel,
-  CarouselItem,
-  CarouselCaption,
-  CarouselIndicators,
-  CarouselControl
-} from "reactstrap";
+import { Progress } from 'reactstrap';
+import Swiper from 'react-id-swiper';
+import 'react-id-swiper/src/styles/css/swiper.css';
+
 
 export default class Home extends React.Component {
   constructor(props) {
     super(props);
     this.state = {
-      activeIndex: 0,
       isLoading: false,
       movies: []
     };
-    this.next = this.next.bind(this);
-    this.previous = this.previous.bind(this);
-    this.goToIndex = this.goToIndex.bind(this);
-    this.onExiting = this.onExiting.bind(this);
-    this.onExited = this.onExited.bind(this);
-  }
-
-  onExiting() {
-    this.animating = true;
-  }
-
-  onExited() {
-    this.animating = false;
-  }
-
-  next() {
-    if (this.animating) return;
-    const nextIndex =
-      this.state.activeIndex === this.state.movies.length - 1
-        ? 0
-        : this.state.activeIndex + 1;
-    this.setState({ activeIndex: nextIndex });
-  }
-
-  previous() {
-    if (this.animating) return;
-    const nextIndex =
-      this.state.activeIndex === 0
-        ? this.state.movies.length - 1
-        : this.state.activeIndex - 1;
-    this.setState({ activeIndex: nextIndex });
-  }
-
-  goToIndex(newIndex) {
-    if (this.animating) return;
-    this.setState({ activeIndex: newIndex });
   }
 
   componentDidMount() {
@@ -84,24 +43,30 @@ export default class Home extends React.Component {
   }
 
   render() {
-    const { activeIndex, isLoading, movies } = this.state;
+    const { isLoading, movies } = this.state;
 
     const items = movies;
 
     const slides = items.map(item => {
       return (
-        <CarouselItem
-          onExiting={this.onExiting}
-          onExited={this.onExited}
-          key={item.src}
-        >
-          <Link to={`/list/${item.idMovie}`}>
-            <img width="100%" src={item.src} alt={item.altText} />
-          </Link>
-          <CarouselCaption captionHeader={item.caption} captionText={item.caption}/>
-        </CarouselItem>
+        <Link key={item.idMovie} to={`/list/${item.idMovie}`}>
+          <img width="100%" src={item.src} alt={item.altText} />
+        </Link>
       );
     });
+
+    const params = {
+      pagination: {
+        el: '.swiper-pagination',
+        type: 'bullets',
+        clickable: true
+      },
+      navigation: {
+        nextEl: '.swiper-button-next',
+        prevEl: '.swiper-button-prev'
+      },
+      spaceBetween: 30
+    }
 
     if (isLoading) {
       return (
@@ -114,30 +79,9 @@ export default class Home extends React.Component {
       );
     } else {
       return (
-        <div>
-          <Carousel
-            activeIndex={activeIndex}
-            next={this.next}
-            previous={this.previous}
-          >
-            <CarouselIndicators
-              items={items}
-              activeIndex={activeIndex}
-              onClickHandler={this.goToIndex}
-            />
-            {slides}
-            <CarouselControl
-              direction="prev"
-              directionText="Previous"
-              onClickHandler={this.previous}
-            />
-            <CarouselControl
-              direction="next"
-              directionText="Next"
-              onClickHandler={this.next}
-            />
-          </Carousel>
-        </div>
+        <Swiper {...params}>
+          {slides}
+        </Swiper>
       );
     }
   }
