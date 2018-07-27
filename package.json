@@ -10,7 +10,8 @@
     "react-id-swiper": "^1.6.6",
     "react-router-dom": "^4.3.1",
     "react-scripts": "1.1.4",
-    "reactstrap": "^6.1.0"
+    "reactstrap": "^6.1.0",
+    "url-search-params-polyfill": "^4.0.1"
   },
   "scripts": {
     "start": "react-scripts start",
