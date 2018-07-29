@@ -61,9 +61,7 @@ export default class Listmain extends React.Component {
       return (
         <div>
           <div className="text-center">Loading...</div>
-          <Progress animated value={50}>
-            50%
-          </Progress>
+          <Progress animated color="danger" value="100" />
         </div>
       );
     } else {

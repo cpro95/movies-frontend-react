@@ -17,8 +17,8 @@ export default class Other extends React.Component {
         </p>
         <hr className="my-2" />
         <p>
-          Backend server with heroku app, Frontend App with heroku app too.
-          Thanks, heroku.com
+          Backend server with heroku app, Frontend App with reactjs.
+          Thanks, heroku.com & ReactJS
         </p>
         <p className="lead">
           Contact me at <a href="http://github.com/cpro95">Github</a>
