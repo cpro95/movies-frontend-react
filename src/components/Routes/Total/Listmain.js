@@ -74,12 +74,12 @@ export default class Listmain extends React.Component {
       }
       next = this.state.currentIndex + 10;
       movies.forEach(movie => {
-        if(movie.idMovie === 1) {
+        if (movie.idMovie === 1) {
           next = this.state.currentIndex;
         }
       });
       // console.log("in render : next is " + next);
-      
+
 
       return (
         <div>
@@ -87,8 +87,8 @@ export default class Listmain extends React.Component {
             <ListGroup flush>
               {movies.map(movie => (
                 <ListGroupItem key={movie.idMovie} tag="a" href={`/list/${movie.idMovie}`} action>
-                {movie.c00}
-              </ListGroupItem>
+                  {movie.c00}
+                </ListGroupItem>
               ))}
             </ListGroup>
           </div>

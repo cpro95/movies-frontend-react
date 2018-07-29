@@ -27,7 +27,7 @@ export default class Detail extends React.Component {
     axios
       .get(
         `https://cpro95-movies-backend-express.herokuapp.com/api/v1/movies?id=${
-          this.props.match.params.id
+        this.props.match.params.id
         }`
       )
       .then(res => {
@@ -76,9 +76,9 @@ export default class Detail extends React.Component {
                 <Col sm="10" xs="10">
                 </Col>
               </Row>
-                  <CardTitle className="display-4 text-center">
-                    {movie.c00}
-                  </CardTitle>
+              <CardTitle className="display-4 text-center">
+                {movie.c00}
+              </CardTitle>
               <CardSubtitle className="py-2 display-5">{movie.c03}</CardSubtitle>
               <hr className="my-2" />
               <CardText>{movie.c01}</CardText>

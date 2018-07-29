@@ -5,10 +5,10 @@ import Detail from './Detail';
 
 
 const Total = () => (
-        <Switch>
-            <Route exact path='/list' component={Listmain} />
-            <Route path='/list/:id' component={Detail} />
-        </Switch>
+    <Switch>
+        <Route exact path='/list' component={Listmain} />
+        <Route path='/list/:id' component={Detail} />
+    </Switch>
 )
 
 export default Total;

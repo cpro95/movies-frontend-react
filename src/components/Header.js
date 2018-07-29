@@ -6,7 +6,7 @@ import {
   NavbarToggler,
   Nav,
   NavItem
- } from 'reactstrap';
+} from 'reactstrap';
 
 export default class Header extends React.Component {
   constructor(props) {
