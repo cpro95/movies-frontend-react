@@ -22,6 +22,8 @@ export default class Listmain extends React.Component {
     } else {
       tempIndex = parseInt(tempIndex, 10);
     }
+    
+    // Initialize state
     this.state = {
       isLoading: false,
       currentIndex: tempIndex,

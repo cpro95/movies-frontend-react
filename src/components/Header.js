@@ -31,8 +31,9 @@ class Header extends React.Component {
 
   handleSubmit(e) {
     e.preventDefault();
-    console.log(this.state);
-    this.props.history.push(`/search?${this.state.search}`);
+    const search = this.state.search;
+    this.setState({ search: "" });
+    this.props.history.push(`/search?q=${search}`);
   }
 
   handleChange = async (event) => {
@@ -47,11 +48,11 @@ class Header extends React.Component {
     return (
       <div>
         <Navbar color="dark" dark expand="md">
-          <Link className="navbar-brand" to={'/'}>Newest</Link>
           <NavbarToggler onClick={this.toggle} />
           <Collapse isOpen={this.state.isOpen} navbar>
             <Nav className="ml-auto" navbar>
               <NavItem>
+                <Link className="navbar-brand" to={'/'}>Home</Link>
               </NavItem>
               <NavItem>
                 <Link className="nav-link active" to={'/list'}>List</Link>
@@ -59,22 +60,25 @@ class Header extends React.Component {
               <NavItem>
                 <Link className="nav-link" to={'/about'}>About</Link>
               </NavItem>
+              <NavItem>
+                <Form
+                  onSubmit={
+                    (e) => this.handleSubmit(e)
+                  }
+                >
+                  <Input
+                    type="text"
+                    name="search"
+                    placeholder="Search..."
+                    value={this.state.search}
+                    onChange={
+                      (e) => this.handleChange(e)
+                    }
+                  />
+                </Form>
+              </NavItem>
             </Nav>
           </Collapse>
-          <Form
-            onSubmit={
-              (e) => this.handleSubmit(e)
-            }
-          >
-            <Input
-              type="text"
-              name="search"
-              placeholder="Search..."
-              onChange={
-                (e) => this.handleChange(e)
-              }
-            />
-          </Form>
         </Navbar>
       </div>
     );
