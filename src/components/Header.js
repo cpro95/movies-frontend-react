@@ -14,12 +14,12 @@ class Header extends React.Component {
   constructor(props) {
     super(props);
 
-    this.toggle = this.toggle.bind(this);
     this.state = {
       isOpen: false,
       search: ""
     };
-
+    
+    this.toggle = this.toggle.bind(this);
     this.handleSubmit = this.handleSubmit.bind(this);
     this.handleChange = this.handleChange.bind(this);
   }
@@ -32,7 +32,9 @@ class Header extends React.Component {
   handleSubmit(e) {
     e.preventDefault();
     const search = this.state.search;
-    this.setState({ search: "" });
+    this.setState({
+      search: ""
+    });
     this.props.history.push(`/search?q=${search}`);
   }
 

@@ -81,6 +81,7 @@ export default class Home extends React.Component {
       // },
       loop: true,
       slidesPerView: 2,
+      slidesPerColumn: 2,
       pagination: {
         el: '.swiper-pagination',
         clickable: true

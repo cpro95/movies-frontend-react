@@ -22,6 +22,10 @@ export default class Detail extends React.Component {
   }
 
   componentDidMount() {
+    this._loadFetchData();
+  }
+
+  _loadFetchData() {
     document.body.style.background = "white";
     this.setState({ isLoading: true });
     axios
@@ -49,7 +53,6 @@ export default class Detail extends React.Component {
   }
   render() {
     const { isLoading, movie } = this.state;
-    console.log(movie.idMovie);
     if (isLoading) {
       return (
         <div>

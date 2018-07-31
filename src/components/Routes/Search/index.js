@@ -97,7 +97,7 @@ export default class Search extends React.Component {
 
         const params = {
             slidesPerView: 2,
-            // slidesPerColumn: 2,
+            slidesPerColumn: 2,
             // loop: true,
             spaceBetween: 30,
             pagination: {
