@@ -16,12 +16,24 @@ export default class Home extends React.Component {
   }
 
   componentDidMount() {
+    this._loadFetchData();
+  }
+
+  _loadFetchData() {
     document.body.style.background = "white";
     this.setState({ isLoading: true });
     axios
       .get("https://cpro95-movies-backend-express.herokuapp.com/api/v1/movies")
       .then(res => {
         // console.log(res.data);
+        if (res.data === "No data found") {
+          this.setState({
+            isLoading: false,
+            movies: []
+          })
+          return 0;
+        }
+
         let items = [];
 
         res.data.map(movie => {
@@ -68,6 +80,7 @@ export default class Home extends React.Component {
       //   slideShadows: true
       // },
       loop: true,
+      slidesPerView: 2,
       pagination: {
         el: '.swiper-pagination',
         clickable: true
@@ -79,6 +92,7 @@ export default class Home extends React.Component {
       spaceBetween: 30
     }
 
+    // console.log("isLoading: " + isLoading);
     if (isLoading) {
       return (
         <div>
@@ -87,11 +101,15 @@ export default class Home extends React.Component {
         </div>
       );
     } else {
-      return (
-        <Swiper {...params}>
-          {slides}
-        </Swiper>
-      );
+      if (items.length === 0) {
+        return (<div className="text-center">No Data Found</div>);
+      } else {
+        return (
+          <Swiper {...params}>
+            {slides}
+          </Swiper>
+        );
+      }
     }
   }
 }

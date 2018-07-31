@@ -7,26 +7,60 @@ import Swiper from 'react-id-swiper';
 import 'react-id-swiper/src/styles/css/swiper.css';
 
 
-export default class Home extends React.Component {
+export default class Search extends React.Component {
     constructor(props) {
         super(props);
         let query = new URLSearchParams(props.location.search).get("q");
 
         // Initialize  State
         this.state = {
+            changedQuery: false,
             isLoading: false,
             query: query,
             movies: []
         };
     }
 
+    static getDerivedStateFromProps(nextProps, prevState) {
+        var query2 = new URLSearchParams(nextProps.location.search).get("q");
+        if (prevState.query !== query2) {
+            return {
+                query: query2,
+                changedQuery: true
+            }
+        } else {
+            return null;
+        }
+    }
+
     componentDidMount() {
+        this._loadFetchData();
+    }
+
+    componentDidUpdate() {
+        if (this.state.changedQuery === true) {
+            this._loadFetchData();
+            this.setState({
+                changedQuery: false
+            })
+        }
+    }
+
+    _loadFetchData() {
         document.body.style.background = "white";
         this.setState({ isLoading: true });
         axios
             .get(`https://cpro95-movies-backend-express.herokuapp.com/api/v1/movies?name=${this.state.query}`)
             .then(res => {
                 // console.log(res.data);
+                if (res.data === "No data found") {
+                    this.setState({
+                        isLoading: false,
+                        movies: []
+                    })
+                    return 0;
+                }
+
                 let items = [];
 
                 res.data.map(movie => {
@@ -64,7 +98,7 @@ export default class Home extends React.Component {
         const params = {
             slidesPerView: 2,
             // slidesPerColumn: 2,
-            loop: true,
+            // loop: true,
             spaceBetween: 30,
             pagination: {
                 el: '.swiper-pagination',
@@ -76,6 +110,7 @@ export default class Home extends React.Component {
             // }
         }
 
+        // console.log("isLoading: " + isLoading);
         if (isLoading) {
             return (
                 <div>
@@ -84,11 +119,24 @@ export default class Home extends React.Component {
                 </div>
             );
         } else {
-            return (
-                <Swiper {...params}>
-                    {slides}
-                </Swiper>
-            );
+            if (items.length === 0) {
+                return (
+                    <div className="text-left">
+                        Search Result: {items.length} Found.
+                    </div>
+                );
+            } else {
+                return (
+                    <div>
+                        <Swiper {...params}>
+                            {slides}
+                        </Swiper>
+                        <div className="text-left">
+                            Search Result: {items.length} Found.
+                        </div>
+                    </div>
+                );
+            }
         }
     }
 }

@@ -7,7 +7,7 @@ import {
   Nav,
   NavItem,
   Input,
-  Form
+  Form,
 } from 'reactstrap';
 
 class Header extends React.Component {
