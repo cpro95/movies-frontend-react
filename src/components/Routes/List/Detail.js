@@ -1,18 +1,29 @@
 import React from "react";
 import axios from "axios";
-import {
-  Progress,
-  Button,
-  Card,
-  CardImg,
-  CardTitle,
-  CardSubtitle,
-  CardText,
-  Row,
-  Col
-} from "reactstrap";
 
-export default class Detail extends React.Component {
+import Loading from '../../Loading';
+import { withStyles } from '@material-ui/core/styles';
+import Card from '@material-ui/core/Card';
+import CardActions from '@material-ui/core/CardActions';
+import CardContent from '@material-ui/core/CardContent';
+import CardMedia from '@material-ui/core/CardMedia';
+import Button from '@material-ui/core/Button';
+import Typography from '@material-ui/core/Typography';
+
+const styles = {
+  card: {
+    width: '100%',
+  },
+
+  media: {
+    // maxWidth:'100%',
+    // height:'100%',
+    paddingTop: '56.25%', // 16:9
+    paddingBottom: '100%',
+  },
+};
+
+class Detail extends React.Component {
   constructor(props) {
     super(props);
     this.state = {
@@ -53,41 +64,50 @@ export default class Detail extends React.Component {
   }
   render() {
     const { isLoading, movie } = this.state;
+    const { classes } = this.props;
+
     if (isLoading) {
       return (
         <div>
-          <div className="text-center">Loading...</div>
-          <Progress animated color="danger" value="100" />
+          <Loading />
         </div>
       );
     } else {
       return (
-        <div>
-          <div>
-            <Card className="px-2">
-              <Row>
-                <Col sm="2" xs="2">
-                  <Button
-                    color="info"
-                    onClick={() => this.props.history.goBack()}
-                  >
-                    Back
-                  </Button>
-                </Col>
-                <Col sm="10" xs="10">
-                </Col>
-              </Row>
-              <CardTitle className="display-4 text-center">
-                {movie.c00}
-              </CardTitle>
-              <CardSubtitle className="py-2 display-5">{movie.c03}</CardSubtitle>
-              <hr className="my-2" />
-              <CardText>{movie.c01}</CardText>
-              <CardImg className="p-0 m-0" src={movie.c08} />
-            </Card>
-          </div>
-        </div>
+        <Card className={classes.card}>
+
+          <CardContent>
+            <Typography gutterBottom variant="headline" component="h2">
+              {movie.c00}
+            </Typography>
+
+            <Typography gutterBottom variant="subheading" component="h4">
+              {movie.c03}
+            </Typography>
+
+            <Typography component="p">
+              {movie.c01}
+            </Typography>
+          </CardContent>
+
+          <CardMedia
+            className={classes.media}
+            image={movie.c08}
+            title="Movie Poster"
+          />
+
+          <CardActions>
+            <Button size="small" color="primary">
+              Share
+          </Button>
+            <Button size="small" color="primary">
+              Learn More
+          </Button>
+          </CardActions>
+        </Card>
       );
     }
   }
 }
+
+export default withStyles(styles)(Detail);

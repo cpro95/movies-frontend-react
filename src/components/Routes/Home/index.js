@@ -1,8 +1,9 @@
 import React from "react";
 import { Link } from "react-router-dom";
 import axios from "axios";
-import { Progress } from 'reactstrap';
 import Swiper from 'react-id-swiper';
+import Loading from '../../Loading';
+import DisplayInfo from '../../DisplayInfo';
 import 'react-id-swiper/src/styles/css/swiper.css';
 
 
@@ -79,31 +80,35 @@ export default class Home extends React.Component {
       //   modifier: 1,
       //   slideShadows: true
       // },
-      loop: true,
+      // loop: true,
       slidesPerView: 2,
       slidesPerColumn: 2,
       pagination: {
         el: '.swiper-pagination',
+        type: 'bullets',
         clickable: true
       },
-      navigation: {
-        nextEl: '.swiper-button-next',
-        prevEl: '.swiper-button-prev'
-      },
-      spaceBetween: 30
+      // navigation: {
+      //   nextEl: '.swiper-button-next',
+      //   prevEl: '.swiper-button-prev'
+      // },
+      spaceBetween: 10
     }
 
     // console.log("isLoading: " + isLoading);
     if (isLoading) {
       return (
-        <div>
-          <div className="text-center">Loading...</div>
-          <Progress animated color="danger" value="100" />
-        </div>
+        <Loading />
       );
     } else {
       if (items.length === 0) {
-        return (<div className="text-center">No Data Found</div>);
+        return (
+          <DisplayInfo
+            variant="subheading"
+            component="body1"
+            body="No Data Found."
+          />
+        );
       } else {
         return (
           <Swiper {...params}>

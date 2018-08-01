@@ -1,31 +1,74 @@
 import React from 'react';
 import { Link, withRouter } from 'react-router-dom';
-import {
-  Collapse,
-  Navbar,
-  NavbarToggler,
-  Nav,
-  NavItem,
-  Input,
-  Form,
-} from 'reactstrap';
+
+import { withStyles } from '@material-ui/core/styles';
+import AppBar from '@material-ui/core/AppBar';
+import Toolbar from '@material-ui/core/Toolbar';
+import Typography from '@material-ui/core/Typography';
+import IconButton from '@material-ui/core/IconButton';
+import MenuIcon from '@material-ui/icons/Menu';
+import SearchIcon from '@material-ui/icons/SearchOutlined';
+
+import Drawer from '@material-ui/core/Drawer';
+import Divider from '@material-ui/core/Divider';
+import ListItem from '@material-ui/core/ListItem';
+import ListItemIcon from '@material-ui/core/ListItemIcon';
+import ListItemText from '@material-ui/core/ListItemText';
+import HomeIcon from '@material-ui/icons/VideocamOutlined';
+import ListIcon from '@material-ui/icons/ListOutlined';
+import AboutIcon from '@material-ui/icons/AnnouncementOutlined';
+import SvgIcon from '@material-ui/core/SvgIcon';
+
+import Input from '@material-ui/core/Input';
+import InputAdornment from '@material-ui/core/InputAdornment';
+
+
+const styles = {
+  root: {
+    flexGrow: 1,
+  },
+
+  flex: {
+    flex: 1,
+  },
+
+  menuButton: {
+    marginLeft: -12,
+    marginRight: 20,
+  },
+
+  inputButton: {
+    marginLeft: 20,
+    marginRight: -12,
+    color: 'white',
+    backgroundColor: 'transparent',
+    borderBottomColor: 'none',
+  },
+
+  list: {
+    width: 'auto',
+  },
+
+};
 
 class Header extends React.Component {
   constructor(props) {
     super(props);
 
     this.state = {
-      isOpen: false,
-      search: ""
+      search: "",
+      left: false,
+      right: false,
     };
-    
-    this.toggle = this.toggle.bind(this);
+
+    this.toggleDrawer = this.toggleDrawer.bind(this);
     this.handleSubmit = this.handleSubmit.bind(this);
     this.handleChange = this.handleChange.bind(this);
   }
-  toggle() {
+
+  toggleDrawer(side, open) {
     this.setState({
-      isOpen: !this.state.isOpen
+      [side]: open
     });
   }
 
@@ -47,44 +90,107 @@ class Header extends React.Component {
   }
 
   render() {
+    const { classes } = this.props;
+
+    const sideList = (
+      <div className={classes.list}>
+        <Link style={{ textDecoration: 'none' }} to={'/'}>
+          <ListItem button>
+            <ListItemIcon>
+              <HomeIcon />
+            </ListItemIcon>
+            <ListItemText primary="Home" />
+          </ListItem>
+        </Link>
+        <Link style={{ textDecoration: 'none' }} to={'/list'}>
+          <ListItem button>
+            <ListItemIcon>
+              <ListIcon />
+            </ListItemIcon>
+            <ListItemText primary="List" />
+          </ListItem>
+        </Link>
+        <Link style={{ textDecoration: 'none' }} to={'/about'}>
+          <ListItem button>
+            <ListItemIcon>
+              <AboutIcon />
+            </ListItemIcon>
+            <ListItemText primary="About" />
+          </ListItem>
+        </Link>
+        <Divider />
+        <a style={{ textDecoration: 'none' }}
+          href='http://github.com/cro95'>
+          <ListItem button>
+            <ListItemIcon>
+              <SvgIcon>
+                <path d="M12.007 0C6.12 0 1.1 4.27.157 10.08c-.944 5.813 2.468 11.45 8.054 13.312.19.064.397.033.555-.084.16-.117.25-.304.244-.5v-2.042c-3.33.735-4.037-1.56-4.037-1.56-.22-.726-.694-1.35-1.334-1.756-1.096-.75.074-.735.074-.735.773.103 1.454.557 1.846 1.23.694 1.21 2.23 1.638 3.45.96.056-.61.327-1.178.766-1.605-2.67-.3-5.462-1.335-5.462-6.002-.02-1.193.42-2.35 1.23-3.226-.327-1.015-.27-2.116.166-3.09 0 0 1.006-.33 3.3 1.23 1.966-.538 4.04-.538 6.003 0 2.295-1.5 3.3-1.23 3.3-1.23.445 1.006.49 2.144.12 3.18.81.877 1.25 2.033 1.23 3.226 0 4.607-2.805 5.627-5.476 5.927.578.583.88 1.386.825 2.206v3.29c-.005.2.092.393.26.507.164.115.377.14.565.063 5.568-1.88 8.956-7.514 8.007-13.313C22.892 4.267 17.884.007 12.008 0z" />
+              </SvgIcon>
+            </ListItemIcon>
+            <ListItemText primary="Github" />
+          </ListItem>
+        </a>
+      </div>
+    );
+
     return (
-      <div>
-        <Navbar color="dark" dark expand="md">
-          <NavbarToggler onClick={this.toggle} />
-          <Collapse isOpen={this.state.isOpen} navbar>
-            <Nav className="ml-auto" navbar>
-              <NavItem>
-                <Link className="navbar-brand" to={'/'}>Home</Link>
-              </NavItem>
-              <NavItem>
-                <Link className="nav-link active" to={'/list'}>List</Link>
-              </NavItem>
-              <NavItem>
-                <Link className="nav-link" to={'/about'}>About</Link>
-              </NavItem>
-              <NavItem>
-                <Form
-                  onSubmit={
-                    (e) => this.handleSubmit(e)
-                  }
+      <div className={classes.root}>
+        <AppBar position="static">
+          <Toolbar>
+            <IconButton
+              className={classes.menuButton}
+              color="inherit"
+              aria-label="Menu"
+            >
+              <MenuIcon
+                onClick={() => this.toggleDrawer("right", true)}
+              />
+              <Drawer open={this.state.right} onClose={() => this.toggleDrawer("right", false)}>
+                <div
+                  tabIndex={0}
+                  role="button"
+                  onClick={() => this.toggleDrawer("right", false)}
+                  onKeyDown={() => this.toggleDrawer("right", false)}
                 >
-                  <Input
-                    type="text"
-                    name="search"
-                    placeholder="Search..."
-                    value={this.state.search}
-                    onChange={
-                      (e) => this.handleChange(e)
-                    }
-                  />
-                </Form>
-              </NavItem>
-            </Nav>
-          </Collapse>
-        </Navbar>
+                  {sideList}
+                </div>
+              </Drawer>
+            </IconButton>
+
+            <Link style={{ color: 'white', textDecoration: 'none' }} to={'/'}>
+              <Typography variant="title" color="inherit" className={classes.flex}>
+                My Movies
+              </Typography>
+            </Link>
+
+            <form
+              onSubmit={
+                (e) => this.handleSubmit(e)
+              }
+            >
+              <Input
+                className={classes.inputButton}
+                autoFocus={false}
+                disableUnderline={true}
+                placeholder="Search....."
+                color="inherit"
+                startAdornment={
+                  <InputAdornment position="start">
+                    <SearchIcon />
+                  </InputAdornment>
+                }
+                onChange={
+                  (e) => this.handleChange(e)
+                }
+                value={this.state.search}
+              />
+            </form>
+
+          </Toolbar>
+        </AppBar>
       </div>
     );
   }
 }
 
-export default withRouter(Header);
+export default withRouter(withStyles(styles)(Header));

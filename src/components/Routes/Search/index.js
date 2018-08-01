@@ -1,7 +1,8 @@
 import React from "react";
 import { Link } from "react-router-dom";
 import axios from "axios";
-import { Progress } from 'reactstrap';
+import Loading from '../../Loading';
+import DisplayInfo from '../../DisplayInfo';
 import 'url-search-params-polyfill';
 import Swiper from 'react-id-swiper';
 import 'react-id-swiper/src/styles/css/swiper.css';
@@ -99,7 +100,7 @@ export default class Search extends React.Component {
             slidesPerView: 2,
             slidesPerColumn: 2,
             // loop: true,
-            spaceBetween: 30,
+            spaceBetween: 10,
             pagination: {
                 el: '.swiper-pagination',
                 clickable: true
@@ -113,17 +114,16 @@ export default class Search extends React.Component {
         // console.log("isLoading: " + isLoading);
         if (isLoading) {
             return (
-                <div>
-                    <div className="text-center">Loading...</div>
-                    <Progress animated color="danger" value="100" />
-                </div>
+                <Loading />
             );
         } else {
             if (items.length === 0) {
                 return (
-                    <div className="text-left">
-                        Search Result: {items.length} Found.
-                    </div>
+                    <DisplayInfo
+                        variant="subheading"
+                        component="h5"
+                        body={`Search Result: ${items.length} Found.`}
+                    />
                 );
             } else {
                 return (
@@ -131,9 +131,11 @@ export default class Search extends React.Component {
                         <Swiper {...params}>
                             {slides}
                         </Swiper>
-                        <div className="text-left">
-                            Search Result: {items.length} Found.
-                        </div>
+                        <DisplayInfo
+                            variant="body1"
+                            component="h5"
+                            body={`Search Result: ${items.length} Found.`}
+                        />
                     </div>
                 );
             }
