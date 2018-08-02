@@ -36,7 +36,7 @@ class About extends React.Component {
                 <br />
                 You can search movies with name.
                 <br />
-                using React, Reactstrap, SwiperJS with Kodi Database.
+                using React, Material-UI, SwiperJS with Kodi Database.
             </Typography>
 
             <hr />

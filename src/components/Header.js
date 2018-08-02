@@ -159,7 +159,7 @@ class Header extends React.Component {
 
             <Link style={{ color: 'white', textDecoration: 'none' }} to={'/'}>
               <Typography variant="title" color="inherit" className={classes.flex}>
-                My Movies
+                Home
               </Typography>
             </Link>
 
