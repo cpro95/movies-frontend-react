@@ -42,7 +42,12 @@ const styles = {
     marginRight: -12,
     color: 'white',
     backgroundColor: 'transparent',
-    borderBottomColor: 'none',
+    float: 'right',
+  },
+
+  searchBox: {
+    flex: 1,
+    float: 'right',
   },
 
   list: {
@@ -163,28 +168,31 @@ class Header extends React.Component {
               </Typography>
             </Link>
 
-            <form
-              onSubmit={
-                (e) => this.handleSubmit(e)
-              }
-            >
-              <Input
-                className={classes.inputButton}
-                autoFocus={false}
-                disableUnderline={true}
-                placeholder="Search....."
-                color="inherit"
-                startAdornment={
-                  <InputAdornment position="start">
-                    <SearchIcon />
-                  </InputAdornment>
+            <div className={classes.searchBox}>
+              <form
+                onSubmit={
+                  (e) => this.handleSubmit(e)
                 }
-                onChange={
-                  (e) => this.handleChange(e)
-                }
-                value={this.state.search}
-              />
-            </form>
+
+              >
+                <Input
+                  className={classes.inputButton}
+                  autoFocus={false}
+                  disableUnderline={true}
+                  placeholder="Search....."
+                  color="inherit"
+                  startAdornment={
+                    <InputAdornment position="start">
+                      <SearchIcon />
+                    </InputAdornment>
+                  }
+                  onChange={
+                    (e) => this.handleChange(e)
+                  }
+                  value={this.state.search}
+                />
+              </form>
+            </div>
 
           </Toolbar>
         </AppBar>
