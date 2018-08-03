@@ -9,6 +9,7 @@ import CardContent from '@material-ui/core/CardContent';
 import CardMedia from '@material-ui/core/CardMedia';
 import Button from '@material-ui/core/Button';
 import Typography from '@material-ui/core/Typography';
+import Badge from '@material-ui/core/Badge';
 
 const styles = {
   card: {
@@ -73,6 +74,17 @@ class Detail extends React.Component {
         </div>
       );
     } else {
+      var youtube_link;
+      var link_str = movie.c19;
+      console.log(movie.c19);
+      // if(link_str.startsWith('plugin')) {
+        // link_str = movie.c19.substr(movie.c19.indexOf('videoid')+8,movie.c19.length);
+        // youtube_link = `http://www.youtube.com/watch?v=${link_str}`;
+      // } else {
+        // youtube_link = movie.c19;
+      // }
+
+
       return (
         <Card className={classes.card}>
 
@@ -81,12 +93,18 @@ class Detail extends React.Component {
               {movie.c00}
             </Typography>
 
-            <Typography gutterBottom variant="subheading" component="h4">
+            <Typography gutterBottom variant="subheading">
               {movie.c03}
             </Typography>
 
-            <Typography component="p">
+            <Typography variant="body2">
               {movie.c01}
+            </Typography>
+
+            <Typography style={{ marginTop: 10 }} gutterBottom variant="body1">
+              Rating:
+              <Badge style={{ marginLeft: 15, marginRight: 20 }} color="primary" badgeContent={movie.rating} />
+              Date: {movie.premiered}
             </Typography>
           </CardContent>
 
@@ -97,12 +115,24 @@ class Detail extends React.Component {
           />
 
           <CardActions>
-            <Button size="small" color="primary">
-              Share
-          </Button>
-            <Button size="small" color="primary">
-              Learn More
-          </Button>
+            <a
+              style={{ textDecoration: 'none' }}
+              href={
+                youtube_link
+              }
+            >
+              <Button size="small" color="primary">
+                View in Youtube
+              </Button>
+            </a>
+            <a
+              style={{ textDecoration: 'none' }}
+              href={`http://www.imdb.com/title/${movie.uniqueid_value}`}
+            >
+              <Button size="small" color="primary">
+                Learn More
+              </Button>
+            </a>
           </CardActions>
         </Card>
       );

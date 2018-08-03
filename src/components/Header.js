@@ -148,14 +148,17 @@ class Header extends React.Component {
               aria-label="Menu"
             >
               <MenuIcon
-                onClick={() => this.toggleDrawer("right", true)}
+                onClick={() => this.toggleDrawer("left", true)}
               />
-              <Drawer open={this.state.right} onClose={() => this.toggleDrawer("right", false)}>
+              <Drawer
+                open={this.state.left}
+                onClose={() => this.toggleDrawer("left", false)}
+              >
                 <div
                   tabIndex={0}
                   role="button"
-                  onClick={() => this.toggleDrawer("right", false)}
-                  onKeyDown={() => this.toggleDrawer("right", false)}
+                  onClick={() => this.toggleDrawer("left", false)}
+                  onKeyDown={() => this.toggleDrawer("left", false)}
                 >
                   {sideList}
                 </div>

@@ -6,6 +6,9 @@ import 'url-search-params-polyfill';
 import Loading from '../../Loading';
 import List from '@material-ui/core/List';
 import ListItem from '@material-ui/core/ListItem';
+import ListItemText from '@material-ui/core/ListItemText';
+import Avatar from '@material-ui/core/Avatar';
+
 import FirstPageIcon from '@material-ui/icons/FirstPage';
 import KeyboardArrowLeft from '@material-ui/icons/KeyboardArrowLeft';
 import KeyboardArrowRight from '@material-ui/icons/KeyboardArrowRight';
@@ -29,13 +32,30 @@ export default class Listmain extends React.Component {
     this.state = {
       isLoading: false,
       page: tempIndex,
-      movies: []
+      movies: [],
+      total: 0,
     };
   }
 
   componentDidMount() {
     document.body.style.background = "white";
     this.setState({ isLoading: true });
+
+    // get the total items count
+    axios
+      .get(
+        `https://cpro95-movies-backend-express.herokuapp.com/api/v1/movies?total=1`
+      )
+      .then(res => {
+        var total = parseInt(res.data.total, 10);
+        this.setState({
+          total: total
+        });
+        // console.log(this.state.total);
+      })
+      .catch(err => console.error(err));
+
+    // get the list of 10 items
     axios
       .get(
         `https://cpro95-movies-backend-express.herokuapp.com/api/v1/movies?limit=10&offset=${
@@ -71,12 +91,13 @@ export default class Listmain extends React.Component {
       } else {
         previous = this.state.page - 10;
       }
-      next = this.state.page + 10;
-      movies.forEach(movie => {
-        if (movie.idMovie === 1) {
-          next = this.state.page;
-        }
-      });
+
+      if (this.state.page >= (this.state.total) - 10) {
+        next = this.state.page;
+      } else {
+        next = this.state.page + 10;
+      }
+
       // console.log("in render : next is " + next);
 
 
@@ -87,34 +108,42 @@ export default class Listmain extends React.Component {
               <Link
                 to={`/list/${movie.idMovie}`}
                 style={{ textDecoration: 'none' }}
+                key={movie.idMovie}
               >
                 <ListItem
                   button
-                  key={movie.idMovie}
                   divider={true}
                 >
-                  {movie.c00}
+                  <Avatar src={movie.c08} />
+                  <ListItemText
+                    primary={movie.c00}
+                    secondary={`${parseFloat(movie.rating).toFixed(1)} / ${movie.premiered}`}
+                  />
                 </ListItem>
               </Link>
             ))}
           </List>
 
           <div style={{ textAlign: 'center' }}>
-            <IconButton
-              onClick={this.handleFirstPageButtonClick}
-              disabled={page === 0}
-              aria-label="First Page"
+
+            <Link
+              onClick={this.handleCleanup.bind(this)}
+              to={`/list?offset=0`}
             >
-              <FirstPageIcon />
-            </IconButton>
+              <IconButton
+                disabled={this.state.page === 0}
+                aria-label="First Page"
+              >
+                <FirstPageIcon />
+              </IconButton>
+            </Link>
 
             <Link
               onClick={this.handleCleanup.bind(this)}
               to={`/list?offset=${previous}`}
             >
               <IconButton
-                onClick={this.handleBackButtonClick}
-                disabled={page === 0}
+                disabled={this.state.page === 0}
                 aria-label="Previous Page"
               >
                 <KeyboardArrowLeft />
@@ -128,21 +157,24 @@ export default class Listmain extends React.Component {
               to={`/list?offset=${next}`}
             >
               <IconButton
-                onClick={this.handleNextButtonClick}
-                // disabled={page >= Math.ceil(count / rowsPerPage) - 1}
+                disabled={this.state.total < this.state.page + 10}
                 aria-label="Next Page"
               >
                 <KeyboardArrowRight />
               </IconButton>
             </Link>
 
-            <IconButton
-              onClick={this.handleLastPageButtonClick}
-              // disabled={page >= Math.ceil(count / rowsPerPage) - 1}
-              aria-label="Last Page"
+            <Link
+              onClick={this.handleCleanup.bind(this)}
+              to={`/list?offset=${parseInt(this.state.total/10,10)*10}`}
             >
-              <LastPageIcon />
-            </IconButton>
+              <IconButton
+                disabled={this.state.total < this.state.page + 10}
+                aria-label="Last Page"
+              >
+                <LastPageIcon />
+              </IconButton>
+            </Link>
           </div>
         </div>
       );
