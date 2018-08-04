@@ -166,7 +166,7 @@ export default class Listmain extends React.Component {
 
             <Link
               onClick={this.handleCleanup.bind(this)}
-              to={`/list?offset=${parseInt((this.state.total-1)/10,10)*10}`}
+              to={`/list?offset=${parseInt((this.state.total - 1)/10,10)*10}`}
             >
               <IconButton
                 disabled={this.state.total <= this.state.page + 10}

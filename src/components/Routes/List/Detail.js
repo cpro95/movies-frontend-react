@@ -48,7 +48,7 @@ class Detail extends React.Component {
         }`
       )
       .then(res => {
-        //   console.log(res.data);
+        // console.log(res.data);
         this.setState({
           isLoading: false,
           movie: res.data[0],
