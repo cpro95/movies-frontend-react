@@ -1,4 +1,5 @@
 import React from "react";
+import PropTypes from 'prop-types';
 import axios from "axios";
 
 import Loading from '../../Loading';
@@ -18,7 +19,7 @@ const styles = {
 
   media: {
     // maxWidth:'100%',
-    // height:'100%',
+    height: 0,
     paddingTop: '56.25%', // 16:9
     paddingBottom: '100%',
   },
@@ -29,7 +30,7 @@ class Detail extends React.Component {
     super(props);
     this.state = {
       isLoading: false,
-      movie: {}
+      movie: {},
     };
   }
 
@@ -50,7 +51,7 @@ class Detail extends React.Component {
         //   console.log(res.data);
         this.setState({
           isLoading: false,
-          movie: res.data[0]
+          movie: res.data[0],
         });
       })
       .catch(err => console.error(err));
@@ -75,25 +76,29 @@ class Detail extends React.Component {
       );
     } else {
       var youtube_link;
-      var link_str = movie.c19;
-      console.log(movie.c19);
-      // if(link_str.startsWith('plugin')) {
-        // link_str = movie.c19.substr(movie.c19.indexOf('videoid')+8,movie.c19.length);
-        // youtube_link = `http://www.youtube.com/watch?v=${link_str}`;
-      // } else {
-        // youtube_link = movie.c19;
-      // }
+      var link_str;
+      var target_str = "" + movie.c19;
 
+      link_str = target_str.substr(target_str.indexOf('videoid') + 8, target_str.length);
+      youtube_link = `http://www.youtube.com/watch?v=${link_str}`;
+
+      var title = "";
+
+      if (movie.c00 !== movie.c16) {
+        title = movie.c00 + " (" + movie.c16 + ")";
+      } else {
+        title = movie.c00;
+      }
 
       return (
         <Card className={classes.card}>
 
           <CardContent>
-            <Typography gutterBottom variant="headline" component="h2">
-              {movie.c00}
+            <Typography gutterBottom variant="headline" component="h1">
+              {title}
             </Typography>
 
-            <Typography gutterBottom variant="subheading">
+            <Typography gutterBottom variant="title" component="h3">
               {movie.c03}
             </Typography>
 
@@ -111,18 +116,16 @@ class Detail extends React.Component {
           <CardMedia
             className={classes.media}
             image={movie.c08}
-            title="Movie Poster"
+            title={movie.c00}
           />
 
           <CardActions>
             <a
               style={{ textDecoration: 'none' }}
-              href={
-                youtube_link
-              }
+              href={youtube_link}
             >
               <Button size="small" color="primary">
-                View in Youtube
+                View Trailer
               </Button>
             </a>
             <a
@@ -139,5 +142,9 @@ class Detail extends React.Component {
     }
   }
 }
+
+Detail.propTypes = {
+  classes: PropTypes.object.isRequired,
+};
 
 export default withStyles(styles)(Detail);
