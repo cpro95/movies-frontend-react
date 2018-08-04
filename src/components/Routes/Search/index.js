@@ -99,8 +99,8 @@ export default class Search extends React.Component {
         const params = {
             slidesPerView: 2,
             slidesPerColumn: 2,
-            // loop: true,
             spaceBetween: 10,
+            mousewheel: true,
             pagination: {
                 el: '.swiper-pagination',
                 clickable: true

@@ -83,6 +83,7 @@ export default class Home extends React.Component {
       // loop: true,
       slidesPerView: 2,
       slidesPerColumn: 2,
+      mousewheel: true,
       pagination: {
         el: '.swiper-pagination',
         type: 'bullets',
