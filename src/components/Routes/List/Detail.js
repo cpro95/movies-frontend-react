@@ -108,7 +108,9 @@ class Detail extends React.Component {
 
             <Typography style={{ marginTop: 10 }} gutterBottom variant="body1">
               Rating:
-              <Badge style={{ marginLeft: 15, marginRight: 20 }} color="primary" badgeContent={movie.rating} />
+              <Badge style={{ marginLeft: 15, marginRight: 20 }}
+                color="primary"
+                badgeContent={parseFloat(movie.rating).toFixed(1)} />
               Date: {movie.premiered}
             </Typography>
           </CardContent>

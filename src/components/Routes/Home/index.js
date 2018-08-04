@@ -105,7 +105,7 @@ export default class Home extends React.Component {
         return (
           <DisplayInfo
             variant="subheading"
-            component="body1"
+            component="h3"
             body="No Data Found."
           />
         );
