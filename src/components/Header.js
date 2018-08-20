@@ -125,7 +125,7 @@ class Header extends React.Component {
         </Link>
         <Divider />
         <a style={{ textDecoration: 'none' }}
-          href='http://github.com/cro95'>
+          href='http://github.com/cpro95'>
           <ListItem button>
             <ListItemIcon>
               <SvgIcon>
