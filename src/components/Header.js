@@ -146,10 +146,10 @@ class Header extends React.Component {
               className={classes.menuButton}
               color="inherit"
               aria-label="Menu"
+              onClick={() => this.toggleDrawer("left", true)}
             >
-              <MenuIcon
-                onClick={() => this.toggleDrawer("left", true)}
-              />
+              <MenuIcon />
+            </IconButton>
               <Drawer
                 open={this.state.left}
                 onClose={() => this.toggleDrawer("left", false)}
@@ -163,7 +163,6 @@ class Header extends React.Component {
                   {sideList}
                 </div>
               </Drawer>
-            </IconButton>
 
             <Link style={{ color: 'white', textDecoration: 'none' }} to={'/'}>
               <Typography variant="title" color="inherit" className={classes.flex}>
