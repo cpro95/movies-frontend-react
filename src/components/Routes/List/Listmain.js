@@ -44,7 +44,7 @@ export default class Listmain extends React.Component {
     // get the total items count
     axios
       .get(
-        `https://cpro95-movies-backend-express.herokuapp.com/api/v1/movies?total=1`
+        `https://cpro95.herokuapp.com/api/v1/movies?total=1`
       )
       .then(res => {
         var total = parseInt(res.data.total, 10);
@@ -58,7 +58,7 @@ export default class Listmain extends React.Component {
     // get the list of 10 items
     axios
       .get(
-        `https://cpro95-movies-backend-express.herokuapp.com/api/v1/movies?limit=10&offset=${
+        `https://cpro95.herokuapp.com/api/v1/movies?limit=10&offset=${
         this.state.page
         }`
       )

@@ -51,7 +51,7 @@ export default class Search extends React.Component {
         document.body.style.background = "white";
         this.setState({ isLoading: true });
         axios
-            .get(`https://cpro95-movies-backend-express.herokuapp.com/api/v1/movies?name=${this.state.query}`)
+            .get(`https://cpro95.herokuapp.com/api/v1/movies?name=${this.state.query}`)
             .then(res => {
                 // console.log(res.data);
                 if (res.data === "No data found") {
